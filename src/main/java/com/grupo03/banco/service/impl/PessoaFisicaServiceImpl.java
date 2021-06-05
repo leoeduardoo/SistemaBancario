@@ -25,8 +25,8 @@ public class PessoaFisicaServiceImpl implements PessoaFisicaService {
     }
 
     @Override
-    public PessoaFisica findByNome(String nome) {
-        return this.pessoaFisicaDAO.findByNome(nome);
+    public PessoaFisica findByCpf(String cpf) {
+        return this.pessoaFisicaDAO.findByCpf(cpf);
     }
 
 }

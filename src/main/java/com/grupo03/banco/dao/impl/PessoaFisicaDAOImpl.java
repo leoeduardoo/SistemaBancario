@@ -36,7 +36,7 @@ public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
                 pstm = con.prepareStatement(INSERT_PESSOA, PreparedStatement.RETURN_GENERATED_KEYS);
 
                 /*
-                 * O valor do objeto fisica é atribuído ao primeiro parâmetro do comando SQL
+                 * Os valores do objeto pessoa fisica são atribuídos
                  */
 
                 pstm.setString(1, pessoaFisica.getNome());
@@ -105,7 +105,7 @@ public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
 
 
     @Override
-    public PessoaFisica findByNome(String nome) {
+    public PessoaFisica findByCpf(String nome) {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet res = null;
@@ -115,7 +115,7 @@ public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
 
         if (con != null) {
             try {
-                pstm = con.prepareStatement(FIND_BY_NOME);
+                pstm = con.prepareStatement(FIND_BY_CPF);
                 pstm.setString(1, nome);
                 res = pstm.executeQuery();
 
@@ -137,6 +137,7 @@ public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
                     pessoaFisica.setSexo(res.getString(10));
                     pessoaFisica.setCpf(res.getString(11));
                     pessoaFisica.setRg(res.getString(12));
+                    pessoaFisica.setId(res.getLong(1));
                 }
             } catch (SQLException ex) {
                 System.out.println("Message: " + ex);

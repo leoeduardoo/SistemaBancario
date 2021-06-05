@@ -1,7 +1,12 @@
 package com.grupo03.banco.service;
 
+import com.grupo03.banco.exception.ObjectNotFoundException;
+import com.grupo03.banco.model.Conta;
 import com.grupo03.banco.model.PessoaFisica;
+import com.grupo03.banco.model.PessoaJuridica;
+import com.grupo03.banco.model.request.ContaRequest;
 import com.grupo03.banco.model.request.PessoaFisicaRequest;
+import com.grupo03.banco.model.response.ContaResponse;
 import com.grupo03.banco.model.response.PessoaFisicaResponse;
 import com.grupo03.banco.utils.InstanceGenerator;
 import com.grupo03.banco.utils.Mapper;
@@ -17,7 +22,7 @@ public class BancoService {
         /*
          * Consulta uma pessoa física pelo cpf
          */
-        PessoaFisica f = fs.findByNome(pessoaFisicaRequest.getNome());
+        PessoaFisica f = fs.findByCpf(pessoaFisicaRequest.getCpf());
 
         if (f == null) {
 
@@ -32,10 +37,49 @@ public class BancoService {
             if (fs.save(fisica)) {
                 return Mapper.INSTANCE.pessoaFisicaToResponse(fisica);
             }
-
         }
 
         return Mapper.INSTANCE.pessoaFisicaToResponse(f);
-
     }
+
+    public ContaResponse cadastrarConta(ContaRequest contaRequest) throws Exception {
+
+        PessoaFisicaService fs = ServiceFactory.getPessoaFisicaService();
+
+        /*
+         * Consulta uma pessoa física pelo cpf ou cnpj
+         */
+        PessoaFisica f = fs.findByCpf(contaRequest.getDocumentoCliente());
+        PessoaJuridica j = null;
+        //todo consultar tbm pelo cnpj, mas pra isso implementar a parte de juridica
+
+        if (f == null && j == null) {
+            throw new ObjectNotFoundException("Cliente");
+        }
+
+        ContaService cs = ServiceFactory.getContaService();
+
+        /*
+         * Consulta uma conta pelo id do cliente
+         */
+        Conta c = cs.findByIdPessoa(f != null ? f.getPessoa_id().toString() : j.getPessoa_id().toString());
+
+        if (c == null) {
+
+            /*
+             * Gera uma instância a ser persistida
+             */
+            Conta conta = InstanceGenerator.getConta(contaRequest);
+
+            /*
+             * Persiste o objeto no banco de dados
+             */
+            if (cs.save(conta, f != null ? f.getPessoa_id().toString() : j.getPessoa_id().toString())) {
+                return Mapper.INSTANCE.contaToResponse(conta);
+            }
+        }
+
+        return Mapper.INSTANCE.contaToResponse(c);
+    }
+
 }
