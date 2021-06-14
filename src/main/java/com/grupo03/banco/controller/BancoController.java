@@ -6,13 +6,17 @@ import com.grupo03.banco.model.request.PessoaJuridicaRequest;
 import com.grupo03.banco.model.response.ContaResponse;
 import com.grupo03.banco.model.response.PessoaFisicaResponse;
 import com.grupo03.banco.model.response.PessoaJuridicaResponse;
+import com.grupo03.banco.model.response.RelacaoContasResponse;
 import com.grupo03.banco.service.BancoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "banco", produces = "application/json")
@@ -20,6 +24,11 @@ public class BancoController {
 
     @Autowired
     private BancoService bancoService;
+
+    @GetMapping("extrairRelacaoContas")
+    public ResponseEntity<List<RelacaoContasResponse>> extrairRelacaoContas() {
+        return ResponseEntity.ok(bancoService.extrairRelacaoContas());
+    }
 
     @PostMapping("cadastrarPessoaFisica")
     public ResponseEntity<PessoaFisicaResponse> cadastrarPessoaFisica(@RequestBody PessoaFisicaRequest pessoaFisicaRequest) {

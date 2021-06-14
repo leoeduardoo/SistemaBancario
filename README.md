@@ -15,17 +15,17 @@
 body:
 ```json
 {
-    "nome": String,
-    "telefone": String,
-    "rua": String,
-    "numeroEndereco": String,
-    "bairro": String,
-    "cidade": String,
-    "estado": String,
-    "dataNascimento": String,
-    "sexo": String,
-    "cpf": String,
-    "rg": String
+    "nome": "String",
+    "telefone": "String",
+    "rua": "String",
+    "numeroEndereco": "String",
+    "bairro": "String",
+    "cidade": "String",
+    "estado": "String",
+    "dataNascimento": "String",
+    "sexo": "String",
+    "cpf": "String",
+    "rg": "String"
 }
 ```
 ------------------------------------------------------------
@@ -37,17 +37,17 @@ body:
 body:
 ```json
 {
-    "nome": String,
-    "telefone": String,
-    "rua": String,
-    "numeroEndereco": String,
-    "bairro": String,
-    "cidade": String,
-    "estado": String,
-    "dataNascimento": String,
-    "sexo": String,
-    "cnpj": String,
-    "ie": String
+    "nome": "String",
+    "telefone": "String",
+    "rua": "String",
+    "numeroEndereco": "String",
+    "bairro": "String",
+    "cidade": "String",
+    "estado": "String",
+    "dataNascimento": "String",
+    "sexo": "String",
+    "cnpj": "String",
+    "ie": "String"
 }
 ```
 ------------------------------------------------------------
@@ -59,8 +59,8 @@ body:
 body:
 ```json
 {
-    "tipoConta": String,
-    "documentoCliente": String
+    "tipoConta": "String",
+    "documentoCliente": "String"
 }
 ```
 
@@ -69,4 +69,6 @@ body:
 | Status | Detalhes |
 | ------ | ------ |
 | to-do | Mapear exceção em todo catch |
-| to-do | Criar lógica e a rota de impressão de relatório |
+| to-do | Criar lógica e a rota de saque e depósito |
+| done | Criar lógica e a rota de impressão de relatório |
+| done | 3 persistência de dados: cadastrar conta, pessoa, pessoa física e pessoa jurídica |

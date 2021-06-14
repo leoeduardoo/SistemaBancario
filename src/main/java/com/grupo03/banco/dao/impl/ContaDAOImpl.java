@@ -2,12 +2,15 @@ package com.grupo03.banco.dao.impl;
 
 import com.grupo03.banco.dao.ContaDAO;
 import com.grupo03.banco.model.Conta;
+import com.grupo03.banco.model.response.RelacaoContasResponse;
 import com.grupo03.banco.utils.ConexaoMySQL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContaDAOImpl implements ContaDAO {
 
@@ -107,6 +110,37 @@ public class ContaDAOImpl implements ContaDAO {
         }
 
         return conta;
+    }
+
+    @Override
+    public List<RelacaoContasResponse> findAllJoinPessoa() {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet res = null;
+        List<RelacaoContasResponse> relacaoContasResponseList = new ArrayList<>();
+
+        con = ConexaoMySQL.getConexao();
+
+        if (con != null) {
+            try {
+                pstm = con.prepareStatement(FIND_ALL_JOIN_PESSOA);
+                res = pstm.executeQuery();
+
+                while (res.next()) {
+                    RelacaoContasResponse relacaoContasResponse = new RelacaoContasResponse();
+                    relacaoContasResponse.setNumero(res.getString(1));
+                    relacaoContasResponse.setTipoConta(res.getString(2));
+                    relacaoContasResponse.setSaldo(res.getBigDecimal(3));
+                    relacaoContasResponse.setTitular(res.getString(4));
+                    relacaoContasResponse.setTelefone(res.getString(5));
+                    relacaoContasResponseList.add(relacaoContasResponse);
+                }
+            } catch (SQLException ex) {
+                System.out.println("Message: " + ex);
+            }
+        }
+
+        return relacaoContasResponseList;
     }
 
 }

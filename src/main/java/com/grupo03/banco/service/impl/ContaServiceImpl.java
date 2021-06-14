@@ -3,10 +3,11 @@ package com.grupo03.banco.service.impl;
 import com.grupo03.banco.dao.ContaDAO;
 import com.grupo03.banco.dao.DaoFactory;
 import com.grupo03.banco.model.Conta;
+import com.grupo03.banco.model.response.RelacaoContasResponse;
 import com.grupo03.banco.service.ContaService;
 
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ContaServiceImpl implements ContaService {
 
@@ -30,6 +31,11 @@ public class ContaServiceImpl implements ContaService {
     @Override
     public Conta findByIdPessoa(String idPessoa) {
         return this.contaDAO.findByIdPessoa(idPessoa);
+    }
+
+    @Override
+    public List<RelacaoContasResponse> findAllJoinPessoa() {
+        return this.contaDAO.findAllJoinPessoa();
     }
 
 }

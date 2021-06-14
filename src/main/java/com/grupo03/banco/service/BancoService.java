@@ -10,12 +10,27 @@ import com.grupo03.banco.model.request.PessoaJuridicaRequest;
 import com.grupo03.banco.model.response.ContaResponse;
 import com.grupo03.banco.model.response.PessoaFisicaResponse;
 import com.grupo03.banco.model.response.PessoaJuridicaResponse;
+import com.grupo03.banco.model.response.RelacaoContasResponse;
 import com.grupo03.banco.utils.InstanceGenerator;
 import com.grupo03.banco.utils.Mapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BancoService {
+
+    public List<RelacaoContasResponse> extrairRelacaoContas() {
+
+        ContaService cs = ServiceFactory.getContaService();
+
+        /*
+         * Retorna todas as contas com dados do cliente
+         */
+        List<RelacaoContasResponse> relacao = cs.findAllJoinPessoa();
+
+        return relacao;
+    }
 
     public PessoaFisicaResponse cadastrarPessoaFisica(PessoaFisicaRequest pessoaFisicaRequest) {
 
@@ -81,7 +96,6 @@ public class BancoService {
          */
         PessoaFisica f = fs.findByCpf(contaRequest.getDocumentoCliente());
         PessoaJuridica j = js.findByCnpj(contaRequest.getDocumentoCliente());
-        //todo consultar tbm pelo cnpj, mas pra isso implementar a parte de juridica
 
         if (f == null && j == null) {
             throw new ObjectNotFoundException("Cliente");
