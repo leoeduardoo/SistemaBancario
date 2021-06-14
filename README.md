@@ -63,6 +63,13 @@ body:
     "documentoCliente": "String"
 }
 ```
+------------------------------------------------------------
+
+##### Extrair Relacao de Contas (GET):
+
+`localhost:8080/banco/extrairRelacaoContas`
+
+------------------------------------------------------------
 
 ### TO-DO
 
