@@ -2,8 +2,10 @@ package com.grupo03.banco.utils;
 
 import com.grupo03.banco.model.Conta;
 import com.grupo03.banco.model.PessoaFisica;
+import com.grupo03.banco.model.PessoaJuridica;
 import com.grupo03.banco.model.response.ContaResponse;
 import com.grupo03.banco.model.response.PessoaFisicaResponse;
+import com.grupo03.banco.model.response.PessoaJuridicaResponse;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -15,6 +17,9 @@ public interface Mapper {
 
     @Mapping(source = "pessoaFisica.pessoa_id", target = "id")
     PessoaFisicaResponse pessoaFisicaToResponse(PessoaFisica pessoaFisica);
+
+    @Mapping(source = "pessoaJuridica.pessoa_id", target = "id")
+    PessoaJuridicaResponse pessoaJuridicaToResponse(PessoaJuridica pessoaJuridica);
 
     @Mappings({
             @Mapping(source = "conta.id", target = "id"),

@@ -2,8 +2,10 @@ package com.grupo03.banco.controller;
 
 import com.grupo03.banco.model.request.ContaRequest;
 import com.grupo03.banco.model.request.PessoaFisicaRequest;
+import com.grupo03.banco.model.request.PessoaJuridicaRequest;
 import com.grupo03.banco.model.response.ContaResponse;
 import com.grupo03.banco.model.response.PessoaFisicaResponse;
+import com.grupo03.banco.model.response.PessoaJuridicaResponse;
 import com.grupo03.banco.service.BancoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,11 @@ public class BancoController {
     @PostMapping("cadastrarPessoaFisica")
     public ResponseEntity<PessoaFisicaResponse> cadastrarPessoaFisica(@RequestBody PessoaFisicaRequest pessoaFisicaRequest) {
         return ResponseEntity.ok(bancoService.cadastrarPessoaFisica(pessoaFisicaRequest));
+    }
+
+    @PostMapping("cadastrarPessoaJuridica")
+    public ResponseEntity<PessoaJuridicaResponse> cadastrarPessoaJuridica(@RequestBody PessoaJuridicaRequest pessoaJuridicaRequest) {
+        return ResponseEntity.ok(bancoService.cadastrarPessoaJuridica(pessoaJuridicaRequest));
     }
 
     @PostMapping("cadastrarConta")

@@ -6,8 +6,10 @@ import com.grupo03.banco.model.PessoaFisica;
 import com.grupo03.banco.model.PessoaJuridica;
 import com.grupo03.banco.model.request.ContaRequest;
 import com.grupo03.banco.model.request.PessoaFisicaRequest;
+import com.grupo03.banco.model.request.PessoaJuridicaRequest;
 import com.grupo03.banco.model.response.ContaResponse;
 import com.grupo03.banco.model.response.PessoaFisicaResponse;
+import com.grupo03.banco.model.response.PessoaJuridicaResponse;
 import com.grupo03.banco.utils.InstanceGenerator;
 import com.grupo03.banco.utils.Mapper;
 import org.springframework.stereotype.Service;
@@ -42,15 +44,43 @@ public class BancoService {
         return Mapper.INSTANCE.pessoaFisicaToResponse(f);
     }
 
+    public PessoaJuridicaResponse cadastrarPessoaJuridica(PessoaJuridicaRequest pessoaJuridicaRequest) {
+
+        PessoaJuridicaService js = ServiceFactory.getPessoaJuridicaService();
+
+        /*
+         * Consulta uma pessoa juridica pelo cnpj
+         */
+        PessoaJuridica j = js.findByCnpj(pessoaJuridicaRequest.getCnpj());
+
+        if (j == null) {
+
+            /*
+             * Gera uma instância a ser persistida
+             */
+            PessoaJuridica juridica = InstanceGenerator.getPessoaJuridica(pessoaJuridicaRequest);
+
+            /*
+             * Persiste o objeto no banco de dados
+             */
+            if (js.save(juridica)) {
+                return Mapper.INSTANCE.pessoaJuridicaToResponse(juridica);
+            }
+        }
+
+        return Mapper.INSTANCE.pessoaJuridicaToResponse(j);
+    }
+
     public ContaResponse cadastrarConta(ContaRequest contaRequest) throws Exception {
 
         PessoaFisicaService fs = ServiceFactory.getPessoaFisicaService();
+        PessoaJuridicaService js = ServiceFactory.getPessoaJuridicaService();
 
         /*
-         * Consulta uma pessoa física pelo cpf ou cnpj
+         * Consulta uma pessoa pelo cpf ou cnpj
          */
         PessoaFisica f = fs.findByCpf(contaRequest.getDocumentoCliente());
-        PessoaJuridica j = null;
+        PessoaJuridica j = js.findByCnpj(contaRequest.getDocumentoCliente());
         //todo consultar tbm pelo cnpj, mas pra isso implementar a parte de juridica
 
         if (f == null && j == null) {

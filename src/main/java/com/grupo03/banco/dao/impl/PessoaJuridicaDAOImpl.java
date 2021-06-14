@@ -1,7 +1,8 @@
 package com.grupo03.banco.dao.impl;
 
-import com.grupo03.banco.dao.PessoaFisicaDAO;
+import com.grupo03.banco.dao.PessoaJuridicaDAO;
 import com.grupo03.banco.model.PessoaFisica;
+import com.grupo03.banco.model.PessoaJuridica;
 import com.grupo03.banco.utils.ConexaoMySQL;
 
 import java.sql.Connection;
@@ -9,10 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
+public class PessoaJuridicaDAOImpl implements PessoaJuridicaDAO {
 
     @Override
-    public boolean save(PessoaFisica pessoaFisica) {
+    public boolean save(PessoaJuridica pessoaJuridica) {
         boolean b = false;
         Connection con = null;
         PreparedStatement pstm = null;
@@ -36,18 +37,18 @@ public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
                 pstm = con.prepareStatement(INSERT_PESSOA, PreparedStatement.RETURN_GENERATED_KEYS);
 
                 /*
-                 * Os valores do objeto pessoa fisica são atribuídos
+                 * Os valores do objeto pessoa juridica são atribuídos
                  */
 
-                pstm.setString(1, pessoaFisica.getNome());
-                pstm.setString(2, pessoaFisica.getTelefone());
-                pstm.setString(3, pessoaFisica.getRua());
-                pstm.setString(4, pessoaFisica.getNumeroEndereco());
-                pstm.setString(5, pessoaFisica.getBairro());
-                pstm.setString(6, pessoaFisica.getCidade());
-                pstm.setString(7, pessoaFisica.getEstado());
-                pstm.setString(8, pessoaFisica.getDataNascimento());
-                pstm.setString(9, pessoaFisica.getSexo());
+                pstm.setString(1, pessoaJuridica.getNome());
+                pstm.setString(2, pessoaJuridica.getTelefone());
+                pstm.setString(3, pessoaJuridica.getRua());
+                pstm.setString(4, pessoaJuridica.getNumeroEndereco());
+                pstm.setString(5, pessoaJuridica.getBairro());
+                pstm.setString(6, pessoaJuridica.getCidade());
+                pstm.setString(7, pessoaJuridica.getEstado());
+                pstm.setString(8, pessoaJuridica.getDataNascimento());
+                pstm.setString(9, pessoaJuridica.getSexo());
 
                 /*
                  * Esse comando executa a instrução SQL
@@ -67,12 +68,12 @@ public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
                 }
 
                 /*
-                 * O trecho abaixo permite a inserção de uma classe Fisica na tabela Fisica
+                 * O trecho abaixo permite a inserção de uma classe Juridica na tabela Juridica
                  */
-                pstm = con.prepareStatement(INSERT_PESSOA_FISICA);
+                pstm = con.prepareStatement(INSERT_PESSOA_JURIDICA);
 
-                pstm.setString(1, pessoaFisica.getCpf());
-                pstm.setString(2, pessoaFisica.getRg());
+                pstm.setString(1, pessoaJuridica.getCnpj());
+                pstm.setString(2, pessoaJuridica.getIe());
                 pstm.setLong(3, idPessoa);
                 pstm.executeUpdate();
 
@@ -94,8 +95,8 @@ public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
                  */
                 con.commit();
                 b = true;
-                pessoaFisica.setPessoa_id(idPessoa);
-                pessoaFisica.setId(idPessoa);
+                pessoaJuridica.setPessoa_id(idPessoa);
+                pessoaJuridica.setId(idPessoa);
             } catch (SQLException ex) {
                 System.out.println("Message: " + ex);
             }
@@ -105,46 +106,46 @@ public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
 
 
     @Override
-    public PessoaFisica findByCpf(String cpf) {
+    public PessoaJuridica findByCnpj(String cnpj) {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet res = null;
-        PessoaFisica pessoaFisica = null;
+        PessoaJuridica pessoaJuridica = null;
 
         con = ConexaoMySQL.getConexao();
 
         if (con != null) {
             try {
-                pstm = con.prepareStatement(FIND_BY_CPF);
-                pstm.setString(1, cpf);
+                pstm = con.prepareStatement(FIND_BY_CNPJ);
+                pstm.setString(1, cnpj);
                 res = pstm.executeQuery();
 
                 /**
                  * Recuperação o objeto
                  */
                 while (res.next()) {
-                    pessoaFisica = new PessoaFisica();
+                    pessoaJuridica = new PessoaJuridica();
 
-                    pessoaFisica.setPessoa_id(res.getLong(1));
-                    pessoaFisica.setNome(res.getString(2));
-                    pessoaFisica.setTelefone(res.getString(3));
-                    pessoaFisica.setRua(res.getString(4));
-                    pessoaFisica.setNumeroEndereco(res.getString(5));
-                    pessoaFisica.setBairro(res.getString(6));
-                    pessoaFisica.setCidade(res.getString(7));
-                    pessoaFisica.setEstado(res.getString(8));
-                    pessoaFisica.setDataNascimento(res.getString(9));
-                    pessoaFisica.setSexo(res.getString(10));
-                    pessoaFisica.setCpf(res.getString(11));
-                    pessoaFisica.setRg(res.getString(12));
-                    pessoaFisica.setId(res.getLong(1));
+                    pessoaJuridica.setPessoa_id(res.getLong(1));
+                    pessoaJuridica.setNome(res.getString(2));
+                    pessoaJuridica.setTelefone(res.getString(3));
+                    pessoaJuridica.setRua(res.getString(4));
+                    pessoaJuridica.setNumeroEndereco(res.getString(5));
+                    pessoaJuridica.setBairro(res.getString(6));
+                    pessoaJuridica.setCidade(res.getString(7));
+                    pessoaJuridica.setEstado(res.getString(8));
+                    pessoaJuridica.setDataNascimento(res.getString(9));
+                    pessoaJuridica.setSexo(res.getString(10));
+                    pessoaJuridica.setCnpj(res.getString(11));
+                    pessoaJuridica.setIe(res.getString(12));
+                    pessoaJuridica.setId(res.getLong(1));
                 }
             } catch (SQLException ex) {
                 System.out.println("Message: " + ex);
             }
         }
 
-        return pessoaFisica;
+        return pessoaJuridica;
     }
 
 }

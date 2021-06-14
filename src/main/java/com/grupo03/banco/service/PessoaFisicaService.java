@@ -6,6 +6,6 @@ public interface PessoaFisicaService {
 
     boolean save(PessoaFisica entity);
 
-    PessoaFisica findByCpf(String nome);
+    PessoaFisica findByCpf(String cpf);
 
 }
