@@ -20,6 +20,17 @@ public class ContaServiceImpl implements ContaService {
     }
 
     @Override
+    public boolean update(Conta entity) throws SQLException {
+        boolean b = false;
+
+        if (entity != null) {
+            b = this.contaDAO.update(entity);
+        }
+
+        return b;
+    }
+
+    @Override
     public boolean save(Conta entity, String fk) throws SQLException {
         boolean b = false;
 
@@ -33,6 +44,11 @@ public class ContaServiceImpl implements ContaService {
     @Override
     public Conta findByIdPessoa(String idPessoa) throws SQLException {
         return this.contaDAO.findByIdPessoa(idPessoa);
+    }
+
+    @Override
+    public Conta findByNumero(String numero) throws SQLException {
+        return this.contaDAO.findByNumero(numero);
     }
 
     @Override

@@ -15,6 +15,47 @@ import java.util.List;
 public class ContaDAOImpl implements ContaDAO {
 
     @Override
+    public boolean update(Conta conta) throws SQLException {
+        boolean b = false;
+        Connection con = null;
+        PreparedStatement pstm = null;
+
+        con = ConexaoMySQL.getConexao();
+
+        if (con != null) {
+            try {
+                /*
+                 * Setando a conexão para falso, que representa o start da transação
+                 */
+                con.setAutoCommit(false);
+
+                pstm = con.prepareStatement(UPDATE_CONTA);
+
+                /*
+                 * Os valores do objeto conta são atribuídos
+                 */
+                pstm.setBigDecimal(1, conta.getSaldo());
+                pstm.setString(2, conta.getNumero());
+
+                /*
+                 * Esse comando executa a instrução SQL
+                 */
+                pstm.executeUpdate();
+
+                /*
+                 * Executando o commit da transação.
+                 */
+                con.commit();
+                b = true;
+            } catch (Exception ex) {
+                throw new SQLException("Erro ao persistir conta na classe " + this.getClass().getName() + ". Problemas no PreparedStatement! Detalhes:" + ex.getMessage());
+            }
+        }
+
+        return b;
+    }
+
+    @Override
     public boolean save(Conta conta, String fk) throws SQLException {
         boolean b = false;
         Connection con = null;
@@ -103,6 +144,38 @@ public class ContaDAOImpl implements ContaDAO {
                     conta.setDataAberturaConta(res.getString(4));
                     conta.setTipoConta(res.getString(5));
                     conta.setPessoa_id(Long.parseLong(idPessoa));
+                }
+            } catch (Exception ex) {
+                throw new SQLException("Erro ao procurar conta. Detalhes: " + ex);
+            }
+        }
+
+        return conta;
+    }
+
+    @Override
+    public Conta findByNumero(String numero) throws SQLException {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet res = null;
+        Conta conta = null;
+
+        con = ConexaoMySQL.getConexao();
+
+        if (con != null) {
+            try {
+                pstm = con.prepareStatement(FIND_BY_NUMERO);
+                pstm.setString(1, numero);
+                res = pstm.executeQuery();
+
+                while (res.next()) {
+                    conta = new Conta();
+                    conta.setId(res.getLong(1));
+                    conta.setSaldo(res.getBigDecimal(2));
+                    conta.setNumero(res.getString(3));
+                    conta.setDataAberturaConta(res.getString(4));
+                    conta.setTipoConta(res.getString(5));
+                    conta.setPessoa_id(Long.parseLong(numero));
                 }
             } catch (Exception ex) {
                 throw new SQLException("Erro ao procurar conta. Detalhes: " + ex);

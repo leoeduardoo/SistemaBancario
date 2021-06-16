@@ -1,6 +1,6 @@
 # SistemaBancario
 
-> Sistema bancario para a disciplina de SOO 
+> Sistema bancário para a disciplina de SOO 
 
   - Spring
   - JDBC
@@ -8,7 +8,7 @@
 
 ### Endpoints 
 
-##### Cadastrar Pessoa Fisica (POST):
+##### Cadastrar Pessoa Física (POST):
 
 `localhost:8080/banco/cadastrarPessoaFisica`
 
@@ -30,7 +30,7 @@ body:
 ```
 ------------------------------------------------------------
 
-##### Cadastrar Pessoa Juridica (POST):
+##### Cadastrar Pessoa Jurídica (POST):
 
 `localhost:8080/banco/cadastrarPessoaJuridica`
 
@@ -65,18 +65,31 @@ body:
 ```
 ------------------------------------------------------------
 
-##### Extrair Relacao de Contas (GET):
+##### Extrair Relação de Contas (GET):
 
 `localhost:8080/banco/extrairRelacaoContas`
 
 ------------------------------------------------------------
 
+##### Efetuar Transação de Saque ou Débito (PUT):
+
+`localhost:8080/banco/efetuarTransacao`
+
+body:
+```json
+{
+    "valor": "BigDecimal",
+    "numero": "String",
+    "tipoTransacao": "String"
+}
+```
+------------------------------------------------------------
 ### TO-DO
 
 | Status | Detalhes |
 | ------ | ------ |
-| to-do | Criar lógica e a rota de saque e depósito |
+| done | Criar lógica e a rota de saque e depósito |
 | done | Mapear exceção em todo catch |
-| done | Criar 3 casos de teste |
+| done | Pelo menos 3 casos de teste |
 | done | Criar lógica e a rota de impressão de relatório |
-| done | 3 persistência de dados: cadastrar conta, pessoa, pessoa física e pessoa jurídica |
+| done | Pelo menos 3 persistência de dados: cadastrar conta, efetuar saque e depósito, pessoa, pessoa física e pessoa jurídica |

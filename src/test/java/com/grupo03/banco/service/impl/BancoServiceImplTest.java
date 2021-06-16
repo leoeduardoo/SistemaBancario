@@ -1,7 +1,6 @@
 package com.grupo03.banco.service.impl;
 
 import com.grupo03.banco.exception.SQLException;
-import com.grupo03.banco.model.Conta;
 import com.grupo03.banco.model.PessoaFisica;
 import com.grupo03.banco.model.PessoaJuridica;
 import com.grupo03.banco.model.request.ContaRequest;

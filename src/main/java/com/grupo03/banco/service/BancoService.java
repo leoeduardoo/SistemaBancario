@@ -1,9 +1,11 @@
 package com.grupo03.banco.service;
 
+import com.grupo03.banco.exception.ObjectNotFoundException;
 import com.grupo03.banco.exception.SQLException;
 import com.grupo03.banco.model.request.ContaRequest;
 import com.grupo03.banco.model.request.PessoaFisicaRequest;
 import com.grupo03.banco.model.request.PessoaJuridicaRequest;
+import com.grupo03.banco.model.request.TransacaoRequest;
 import com.grupo03.banco.model.response.ContaResponse;
 import com.grupo03.banco.model.response.PessoaFisicaResponse;
 import com.grupo03.banco.model.response.PessoaJuridicaResponse;
@@ -13,12 +15,14 @@ import java.util.List;
 
 public interface BancoService {
 
-    public List<RelacaoContasResponse> extrairRelacaoContas() throws SQLException;
+    ContaResponse efetuarTransacao(TransacaoRequest transacaoRequest) throws SQLException, ObjectNotFoundException;
 
-    public PessoaFisicaResponse cadastrarPessoaFisica(PessoaFisicaRequest pessoaFisicaRequest) throws SQLException;
+    List<RelacaoContasResponse> extrairRelacaoContas() throws SQLException;
 
-    public PessoaJuridicaResponse cadastrarPessoaJuridica(PessoaJuridicaRequest pessoaJuridicaRequest) throws SQLException;
+    PessoaFisicaResponse cadastrarPessoaFisica(PessoaFisicaRequest pessoaFisicaRequest) throws SQLException;
 
-    public ContaResponse cadastrarConta(ContaRequest contaRequest) throws Exception;
+    PessoaJuridicaResponse cadastrarPessoaJuridica(PessoaJuridicaRequest pessoaJuridicaRequest) throws SQLException;
+
+    ContaResponse cadastrarConta(ContaRequest contaRequest) throws SQLException, ObjectNotFoundException;
 
 }

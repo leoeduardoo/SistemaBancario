@@ -1,9 +1,11 @@
 package com.grupo03.banco.controller;
 
+import com.grupo03.banco.exception.ObjectNotFoundException;
 import com.grupo03.banco.exception.SQLException;
 import com.grupo03.banco.model.request.ContaRequest;
 import com.grupo03.banco.model.request.PessoaFisicaRequest;
 import com.grupo03.banco.model.request.PessoaJuridicaRequest;
+import com.grupo03.banco.model.request.TransacaoRequest;
 import com.grupo03.banco.model.response.ContaResponse;
 import com.grupo03.banco.model.response.PessoaFisicaResponse;
 import com.grupo03.banco.model.response.PessoaJuridicaResponse;
@@ -12,10 +14,7 @@ import com.grupo03.banco.service.BancoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +24,11 @@ public class BancoController {
 
     @Autowired
     private BancoService bancoService;
+
+    @PutMapping("efetuarTransacao")
+    public ResponseEntity<ContaResponse> efetuarTransacao(@RequestBody TransacaoRequest transacaoRequest) throws SQLException, ObjectNotFoundException {
+        return ResponseEntity.ok(bancoService.efetuarTransacao(transacaoRequest));
+    }
 
     @GetMapping("extrairRelacaoContas")
     public ResponseEntity<List<RelacaoContasResponse>> extrairRelacaoContas() throws SQLException {
@@ -42,7 +46,7 @@ public class BancoController {
     }
 
     @PostMapping("cadastrarConta")
-    public ResponseEntity<ContaResponse> cadastrarConta(@RequestBody ContaRequest contaRequest) throws Exception {
+    public ResponseEntity<ContaResponse> cadastrarConta(@RequestBody ContaRequest contaRequest) throws SQLException, ObjectNotFoundException {
         return ResponseEntity.ok(bancoService.cadastrarConta(contaRequest));
     }
 

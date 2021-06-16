@@ -8,6 +8,7 @@ import com.grupo03.banco.model.PessoaJuridica;
 import com.grupo03.banco.model.request.ContaRequest;
 import com.grupo03.banco.model.request.PessoaFisicaRequest;
 import com.grupo03.banco.model.request.PessoaJuridicaRequest;
+import com.grupo03.banco.model.request.TransacaoRequest;
 import com.grupo03.banco.model.response.ContaResponse;
 import com.grupo03.banco.model.response.PessoaFisicaResponse;
 import com.grupo03.banco.model.response.PessoaJuridicaResponse;
@@ -25,6 +26,31 @@ import java.util.List;
 
 @Service
 public class BancoServiceImpl implements BancoService {
+
+    @Override
+    public ContaResponse efetuarTransacao(TransacaoRequest transacaoRequest) throws SQLException, ObjectNotFoundException {
+
+        ContaService cs = ServiceFactory.getContaService();
+
+        /*
+         * Consulta uma conta pelo numero
+         */
+        Conta c = cs.findByNumero(transacaoRequest.getNumero());
+
+        if (c == null) {
+            throw new ObjectNotFoundException("Conta");
+        }
+
+        if (transacaoRequest.getTipoTransacao().contains("Saque")) {
+            c.setSaldo(c.getSaldo().subtract(transacaoRequest.getValor()));
+        } else {
+            c.setSaldo(c.getSaldo().add(transacaoRequest.getValor()));
+        }
+
+        cs.update(c);
+
+        return Mapper.INSTANCE.contaToResponse(c);
+    }
 
     @Override
     public List<RelacaoContasResponse> extrairRelacaoContas() throws SQLException {
@@ -96,7 +122,7 @@ public class BancoServiceImpl implements BancoService {
     }
 
     @Override
-    public ContaResponse cadastrarConta(ContaRequest contaRequest) throws Exception {
+    public ContaResponse cadastrarConta(ContaRequest contaRequest) throws SQLException, ObjectNotFoundException {
 
         PessoaFisicaService fs = ServiceFactory.getPessoaFisicaService();
         PessoaJuridicaService js = ServiceFactory.getPessoaJuridicaService();
