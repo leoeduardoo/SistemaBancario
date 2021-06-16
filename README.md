@@ -75,7 +75,8 @@ body:
 
 | Status | Detalhes |
 | ------ | ------ |
-| to-do | Mapear exceção em todo catch |
 | to-do | Criar lógica e a rota de saque e depósito |
+| done | Mapear exceção em todo catch |
+| done | Criar 3 casos de teste |
 | done | Criar lógica e a rota de impressão de relatório |
 | done | 3 persistência de dados: cadastrar conta, pessoa, pessoa física e pessoa jurídica |

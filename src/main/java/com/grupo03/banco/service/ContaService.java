@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface ContaService {
 
-    boolean save(Conta entity, String fk) throws SQLException;
+    boolean save(Conta entity, String fk) throws SQLException, com.grupo03.banco.exception.SQLException;
 
-    Conta findByIdPessoa(String idPessoa);
+    Conta findByIdPessoa(String idPessoa) throws com.grupo03.banco.exception.SQLException;
 
-    List<RelacaoContasResponse> findAllJoinPessoa();
+    List<RelacaoContasResponse> findAllJoinPessoa() throws com.grupo03.banco.exception.SQLException;
 
 }

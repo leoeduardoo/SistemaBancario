@@ -1,19 +1,18 @@
 package com.grupo03.banco.dao.impl;
 
 import com.grupo03.banco.dao.PessoaJuridicaDAO;
-import com.grupo03.banco.model.PessoaFisica;
+import com.grupo03.banco.exception.SQLException;
 import com.grupo03.banco.model.PessoaJuridica;
 import com.grupo03.banco.utils.ConexaoMySQL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class PessoaJuridicaDAOImpl implements PessoaJuridicaDAO {
 
     @Override
-    public boolean save(PessoaJuridica pessoaJuridica) {
+    public boolean save(PessoaJuridica pessoaJuridica) throws SQLException {
         boolean b = false;
         Connection con = null;
         PreparedStatement pstm = null;
@@ -78,27 +77,14 @@ public class PessoaJuridicaDAOImpl implements PessoaJuridicaDAO {
                 pstm.executeUpdate();
 
                 /*
-                 * Abaixo segue as chamadas das outras classes DAO para persistência das
-                 * outras classes em entidade no banco de dados.
-                 */
-
-//                AcessoDAO adao = new AcessoDAOImpl();
-//                adao.save(con, fisica.getAcesso(), idPessoa);
-//
-//                EnderecoDAO edao = new EnderecoDAOImpl();
-//                for (Endereco e : fisica.getEndereco()) {
-//                    edao.save(con, e, idPessoa);
-//                }
-
-                /*
                  * Executando o commit da transação.
                  */
                 con.commit();
                 b = true;
                 pessoaJuridica.setPessoa_id(idPessoa);
                 pessoaJuridica.setId(idPessoa);
-            } catch (SQLException ex) {
-                System.out.println("Message: " + ex);
+            } catch (Exception ex) {
+                throw new SQLException("Erro ao persistir pessoa fisica na classe " + this.getClass().getName() + ". Problemas no PreparedStatement! Detalhes:" + ex.getMessage());
             }
         }
         return b;
@@ -106,7 +92,7 @@ public class PessoaJuridicaDAOImpl implements PessoaJuridicaDAO {
 
 
     @Override
-    public PessoaJuridica findByCnpj(String cnpj) {
+    public PessoaJuridica findByCnpj(String cnpj) throws SQLException {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet res = null;
@@ -140,8 +126,8 @@ public class PessoaJuridicaDAOImpl implements PessoaJuridicaDAO {
                     pessoaJuridica.setIe(res.getString(12));
                     pessoaJuridica.setId(res.getLong(1));
                 }
-            } catch (SQLException ex) {
-                System.out.println("Message: " + ex);
+            } catch (Exception ex) {
+                throw new SQLException("Erro ao procurar pessoa juridica. Detalhes: " + ex);
             }
         }
 

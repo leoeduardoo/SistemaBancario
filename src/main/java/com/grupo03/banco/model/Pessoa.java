@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-// Generalizacao ou Heranca
 public abstract class Pessoa {
     private Long id;
     private String nome;

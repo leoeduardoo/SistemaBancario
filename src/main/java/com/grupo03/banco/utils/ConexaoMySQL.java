@@ -10,7 +10,7 @@ public class ConexaoMySQL implements IMySQL {
         try {
             Class.forName(DRIVER_NAME);
             con = DriverManager.getConnection(URL, USUARIO, SENHA);
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (Exception ex) {
             System.out.println("Message: " + ex.getMessage());
         }
 

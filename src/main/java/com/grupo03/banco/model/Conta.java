@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-// >Agregacao< ou associacao?
 public class Conta {
     private Long id;
     private String tipoConta;

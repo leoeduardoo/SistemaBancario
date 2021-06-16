@@ -26,4 +26,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<?> handleSQLException(SQLException e) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        errorDetail.setTimeStamp(sdf.format(new Date()));
+        errorDetail.setDetail(e.getMessage());
+        errorDetail.setExceptionClass(e.getClass().getName());
+
+        return new ResponseEntity<>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

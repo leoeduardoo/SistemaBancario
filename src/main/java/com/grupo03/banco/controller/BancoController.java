@@ -1,5 +1,6 @@
 package com.grupo03.banco.controller;
 
+import com.grupo03.banco.exception.SQLException;
 import com.grupo03.banco.model.request.ContaRequest;
 import com.grupo03.banco.model.request.PessoaFisicaRequest;
 import com.grupo03.banco.model.request.PessoaJuridicaRequest;
@@ -26,17 +27,17 @@ public class BancoController {
     private BancoService bancoService;
 
     @GetMapping("extrairRelacaoContas")
-    public ResponseEntity<List<RelacaoContasResponse>> extrairRelacaoContas() {
+    public ResponseEntity<List<RelacaoContasResponse>> extrairRelacaoContas() throws SQLException {
         return ResponseEntity.ok(bancoService.extrairRelacaoContas());
     }
 
     @PostMapping("cadastrarPessoaFisica")
-    public ResponseEntity<PessoaFisicaResponse> cadastrarPessoaFisica(@RequestBody PessoaFisicaRequest pessoaFisicaRequest) {
+    public ResponseEntity<PessoaFisicaResponse> cadastrarPessoaFisica(@RequestBody PessoaFisicaRequest pessoaFisicaRequest) throws SQLException {
         return ResponseEntity.ok(bancoService.cadastrarPessoaFisica(pessoaFisicaRequest));
     }
 
     @PostMapping("cadastrarPessoaJuridica")
-    public ResponseEntity<PessoaJuridicaResponse> cadastrarPessoaJuridica(@RequestBody PessoaJuridicaRequest pessoaJuridicaRequest) {
+    public ResponseEntity<PessoaJuridicaResponse> cadastrarPessoaJuridica(@RequestBody PessoaJuridicaRequest pessoaJuridicaRequest) throws SQLException {
         return ResponseEntity.ok(bancoService.cadastrarPessoaJuridica(pessoaJuridicaRequest));
     }
 

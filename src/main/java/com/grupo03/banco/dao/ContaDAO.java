@@ -1,9 +1,9 @@
 package com.grupo03.banco.dao;
 
+import com.grupo03.banco.exception.SQLException;
 import com.grupo03.banco.model.Conta;
 import com.grupo03.banco.model.response.RelacaoContasResponse;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface ContaDAO {
@@ -20,8 +20,8 @@ public interface ContaDAO {
 
     public boolean save(Conta conta, String fk) throws SQLException;
 
-    public Conta findByIdPessoa(String idPessoa);
+    public Conta findByIdPessoa(String idPessoa) throws SQLException;
 
-    public List<RelacaoContasResponse> findAllJoinPessoa();
+    public List<RelacaoContasResponse> findAllJoinPessoa() throws SQLException;
 
 }

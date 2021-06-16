@@ -1,5 +1,6 @@
 package com.grupo03.banco.dao;
 
+import com.grupo03.banco.exception.SQLException;
 import com.grupo03.banco.model.PessoaJuridica;
 
 public interface PessoaJuridicaDAO {
@@ -13,8 +14,8 @@ public interface PessoaJuridicaDAO {
             + "JOIN Pessoa p ON p.id = pj.Pessoa_id "
             + "WHERE pj.cnpj = ?";
 
-    public PessoaJuridica findByCnpj(String cnpj);
+    public PessoaJuridica findByCnpj(String cnpj) throws SQLException;
 
-    public boolean save(PessoaJuridica pessoaJuridica);
+    public boolean save(PessoaJuridica pessoaJuridica) throws SQLException;
 
 }

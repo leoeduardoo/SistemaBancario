@@ -1,6 +1,7 @@
 package com.grupo03.banco.dao.impl;
 
 import com.grupo03.banco.dao.ContaDAO;
+import com.grupo03.banco.exception.SQLException;
 import com.grupo03.banco.model.Conta;
 import com.grupo03.banco.model.response.RelacaoContasResponse;
 import com.grupo03.banco.utils.ConexaoMySQL;
@@ -8,7 +9,6 @@ import com.grupo03.banco.utils.ConexaoMySQL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,8 +72,8 @@ public class ContaDAOImpl implements ContaDAO {
                 b = true;
                 conta.setPessoa_id(idConta);
                 conta.setId(idConta);
-            } catch (SQLException ex) {
-                throw new SQLException(this.getClass().getName() + " - Problemas no PreparedStatement!\n" + ex.getMessage());
+            } catch (Exception ex) {
+                throw new SQLException("Erro ao persistir conta na classe " + this.getClass().getName() + ". Problemas no PreparedStatement! Detalhes:" + ex.getMessage());
             }
         }
 
@@ -81,7 +81,7 @@ public class ContaDAOImpl implements ContaDAO {
     }
 
     @Override
-    public Conta findByIdPessoa(String idPessoa) {
+    public Conta findByIdPessoa(String idPessoa) throws SQLException {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet res = null;
@@ -104,8 +104,8 @@ public class ContaDAOImpl implements ContaDAO {
                     conta.setTipoConta(res.getString(5));
                     conta.setPessoa_id(Long.parseLong(idPessoa));
                 }
-            } catch (SQLException ex) {
-                System.out.println("Message: " + ex);
+            } catch (Exception ex) {
+                throw new SQLException("Erro ao procurar conta. Detalhes: " + ex);
             }
         }
 
@@ -113,7 +113,7 @@ public class ContaDAOImpl implements ContaDAO {
     }
 
     @Override
-    public List<RelacaoContasResponse> findAllJoinPessoa() {
+    public List<RelacaoContasResponse> findAllJoinPessoa() throws SQLException {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet res = null;
@@ -135,8 +135,8 @@ public class ContaDAOImpl implements ContaDAO {
                     relacaoContasResponse.setTelefone(res.getString(5));
                     relacaoContasResponseList.add(relacaoContasResponse);
                 }
-            } catch (SQLException ex) {
-                System.out.println("Message: " + ex);
+            } catch (Exception ex) {
+                throw new SQLException("Erro ao procurar conta. Detalhes: " + ex);
             }
         }
 

@@ -1,18 +1,18 @@
 package com.grupo03.banco.dao.impl;
 
 import com.grupo03.banco.dao.PessoaFisicaDAO;
+import com.grupo03.banco.exception.SQLException;
 import com.grupo03.banco.model.PessoaFisica;
 import com.grupo03.banco.utils.ConexaoMySQL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
 
     @Override
-    public boolean save(PessoaFisica pessoaFisica) {
+    public boolean save(PessoaFisica pessoaFisica) throws SQLException {
         boolean b = false;
         Connection con = null;
         PreparedStatement pstm = null;
@@ -77,27 +77,14 @@ public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
                 pstm.executeUpdate();
 
                 /*
-                 * Abaixo segue as chamadas das outras classes DAO para persistência das
-                 * outras classes em entidade no banco de dados.
-                 */
-
-//                AcessoDAO adao = new AcessoDAOImpl();
-//                adao.save(con, fisica.getAcesso(), idPessoa);
-//
-//                EnderecoDAO edao = new EnderecoDAOImpl();
-//                for (Endereco e : fisica.getEndereco()) {
-//                    edao.save(con, e, idPessoa);
-//                }
-
-                /*
                  * Executando o commit da transação.
                  */
                 con.commit();
                 b = true;
                 pessoaFisica.setPessoa_id(idPessoa);
                 pessoaFisica.setId(idPessoa);
-            } catch (SQLException ex) {
-                System.out.println("Message: " + ex);
+            } catch (Exception ex) {
+                throw new SQLException("Erro ao persistir pessoa fisica na classe " + this.getClass().getName() + ". Problemas no PreparedStatement! Detalhes:" + ex.getMessage());
             }
         }
         return b;
@@ -105,7 +92,7 @@ public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
 
 
     @Override
-    public PessoaFisica findByCpf(String cpf) {
+    public PessoaFisica findByCpf(String cpf) throws SQLException {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet res = null;
@@ -139,8 +126,8 @@ public class PessoaFisicaDAOImpl implements PessoaFisicaDAO {
                     pessoaFisica.setRg(res.getString(12));
                     pessoaFisica.setId(res.getLong(1));
                 }
-            } catch (SQLException ex) {
-                System.out.println("Message: " + ex);
+            } catch (Exception ex) {
+                throw new SQLException("Erro ao procurar pessoa fisica. Detalhes: " + ex);
             }
         }
 
